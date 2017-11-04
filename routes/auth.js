@@ -23,7 +23,21 @@ router.post('/sign_up', (req, res, next) => {
     };
 
     AuthModel.signUp(info, (err, result) => {
-
+        if (err) {
+            throw err
+        } else {
+            if (result === 'ExistEmail') {
+                return res.status(202).json({
+                    message : 'ExistEmail',
+                    code : 2
+                })
+            } else if (result === 'Success SignUp') {
+                return res.status(200).json({
+                    message : "Success",
+                    code : 1
+                })
+            }
+        }
     });
 
 });
