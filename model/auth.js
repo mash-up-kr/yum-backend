@@ -16,7 +16,7 @@ const dbPool = mysql.createPool(dbPoolConfig);
  */
 function signUp(info, callback) {
 
-    dbPool.getConnections((err, dbConn) => {
+    dbPool.getConnection((err, dbConn) => {
         if (err) {
             return callback(err);
         }
@@ -51,7 +51,7 @@ function signUp(info, callback) {
             if (len === 1) {
                 return cb(null, "ExistEmail")
             } else if (len === 0) {
-                let sql = "INSERT INTO USER(email, password, nickname) VALUES(?,?,?);";
+                let sql = "INSERT INTO user(email, password, nickname) VALUES(?,?,?);";
 
                 dbConn.query(sql, [info.email, info.password, info.nickname], (err, result) => {
                     if (err) {
@@ -84,7 +84,7 @@ function signUp(info, callback) {
  */
 function signIn(info, callback) {
 
-    dbPool.getConnections((err, dbConn) => {
+    dbPool.getConnection((err, dbConn) => {
        if (err) {
            return callback(err);
        }
@@ -94,6 +94,7 @@ function signIn(info, callback) {
            checkPassword,
        ], (err, result) => {
            if (err) {
+               console.log(err);
                callback(err);
            } else {
                callback(null, result);
@@ -105,9 +106,10 @@ function signIn(info, callback) {
 
             dbConn.query(sql, [info.email], (err, result) => {
                if (err) {
+                   console.log(err);
                    return cb(err);
                } else {
-                   return cb(result.length);
+                   return cb(null, result.length);
                }
             });
         }
@@ -120,6 +122,7 @@ function signIn(info, callback) {
 
                 dbConn.query(sql, [info.email], (err, result) => {
                    if (err) {
+                       console.log(err);
                        return cb(err);
                    } else {
                        if (result[0].password !== info.password) {

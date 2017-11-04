@@ -16,6 +16,7 @@ const AuthModel = require('../model/auth');
  */
 router.post('/sign_up', (req, res, next) => {
 
+
     let info = {
         email : req.body.email,
         password : req.body.password,
@@ -63,6 +64,7 @@ router.post('/sign_in', (req, res, next) => {
 
     AuthModel.signIn(info, (err, result) => {
         if (err) {
+            console.log(err);
             throw err;
         } else {
             if (result === 'NonExistEmail') {
