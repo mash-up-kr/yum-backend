@@ -17,11 +17,12 @@ const uploadPostImg = multer({
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         metadata: function (req, file, callback) {
+            // console.log('aaaaaa');
             callback(null, {fieldName: file.fieldname});
         },
         key: function (req, file, callback) {
             let newFileName = Date.now() + '-' + file.originalname + '-' + generateRandom(1,5);
-            let fullPath = 'funfur/AndroidUserProfileImg/' + newFileName;
+            let fullPath = 'dev/yum/postImg/' + newFileName;
             callback(null, fullPath);
         },
         limits: {fileSize: 10 * 1024 * 1024}

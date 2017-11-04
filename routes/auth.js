@@ -81,7 +81,7 @@ router.post('/sign_in', (req, res, next) => {
                 return res.status(200).json({
                     message: 'Success',
                     code: 1,
-                    result: result
+                    userId: result
                 })
             }
         }
