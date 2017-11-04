@@ -22,6 +22,9 @@ router.post('/sign_up', (req, res, next) => {
         nickname : req.body.nickname
     };
 
+    AuthModel.signUp(info, (err, result) => {
+
+    });
 
 });
 
