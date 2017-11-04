@@ -61,8 +61,36 @@ router.get('/get_feed', (req, res, next) => {
  *  (/search?hashtag&calorie)
  *  Request
  *
+ *  1. hashtag 만 넘어올시
+ *  2. calorie 만 넘어올시
+ *  3. hashtag, calorie 둘다 넘어올시.
+ *
  */
 router.get('/search', (req, res, next) => {
+
+    let info = {};
+
+    if (req.query.hashtag !== undefined && req.query.calorie === undefined) {
+
+       info = {
+           hashtag : req.query.hashtag
+       }
+    } else if (req.query.calorie !== undefined && req.query.hashtag === undefined) {
+
+        info = {
+            calorie : req.query.calorie
+        }
+    } else if (req.query.hashtag !== undefined && req.query.calorie !== undefined) {
+
+        info = {
+            hashtag : req.query.hashtag,
+            calorie : req.query.calorie
+        }
+    }
+
+    PostModel.searchPost(info, (err, result) => {
+
+    })
 
 });
 
