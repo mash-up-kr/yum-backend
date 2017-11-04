@@ -24,7 +24,7 @@ router.post('/sign_up', (req, res, next) => {
 
     AuthModel.signUp(info, (err, result) => {
         if (err) {
-            throw err
+            throw err;
         } else {
             if (result === 'ExistEmail') {
                 return res.status(202).json({
@@ -52,6 +52,7 @@ router.post('/sign_up', (req, res, next) => {
  *  Response
  *  - message : String
  *  - code : Number
+ *  - result : Number (Option)
  */
 router.post('/sign_in', (req, res, next) => {
 
@@ -61,7 +62,27 @@ router.post('/sign_in', (req, res, next) => {
     };
 
     AuthModel.signIn(info, (err, result) => {
-
+        if (err) {
+            throw err;
+        } else {
+            if (result === 'NonExistEmail') {
+                return res.status(409).json({
+                    message: 'NonExistEmail',
+                    code: 2
+                })
+            } else if (result === 'DiscordPassword') {
+                return res.status(409).json({
+                    message: 'DiscordPassword',
+                    code: 2
+                })
+            } else {
+                return res.status(200).json({
+                    message: 'Success',
+                    code: 1,
+                    result: result
+                })
+            }
+        }
     });
 
 });
